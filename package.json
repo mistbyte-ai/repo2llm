@@ -1,0 +1,13 @@
+{
+	"name": "repo2llm",
+	"version": "1.0.0",
+	"description": "LLM-friendly repository snapshot tool",
+	"bin": {
+		"repo2llm": "./repo2llm.js"
+	},
+	"type": "commonjs",
+	"dependencies": {
+		"ignore": "^5.3.2",
+		"isbinaryfile": "^5.0.1"
+	}
+}
