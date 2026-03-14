@@ -1,0 +1,14 @@
+.git/
+node_modules/
+dist/
+build/
+coverage/
+.repo2llm-state.json
+.env
+.env.*
+*.log
+*.tmp
+*.cache
+*.zip
+*.tar
+*.gz

@@ -3,6 +3,7 @@
 const path = require('path')
 const {collectProjectFiles} = require('./lib/collector')
 const {renderSnapshot, renderMap} = require('./lib/renderer')
+const {createDefaultIgnore} = require('./lib/ignore')
 
 async function main() {
 	const command = process.argv[2]
@@ -13,12 +14,18 @@ async function main() {
 		process.exit(2)
 	}
 
-	if (command !== 'snapshot' && command !== 'map') {
+	if (command !== 'snapshot' && command !== 'map' && command !== 'init-ignore') {
 		console.error(`Unknown command: ${command}`)
 		process.exit(2)
 	}
 
 	try {
+		if (command === 'init-ignore') {
+			const result = await createDefaultIgnore(root)
+			console.log(result.message)
+			return
+		}
+
 		const result = await collectProjectFiles(root)
 
 		if (command === 'map') {
