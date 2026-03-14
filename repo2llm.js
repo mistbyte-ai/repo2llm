@@ -7,18 +7,36 @@ const { renderSnapshot, renderMap, renderDiff, renderLastDiff } = require('./lib
 const {createDefaultIgnore} = require('./lib/ignore')
 const { loadState, saveState, buildFilesState, buildDiffEntries, buildSnapshotState, compareStateFiles, buildDiffState } = require('./lib/state')
 
+function printHelp() {
+	console.log('Usage: repo2llm <command> [path]')
+	console.log('')
+	console.log('Commands:')
+	console.log('\tsnapshot [path]\t\tCreate full repository snapshot')
+	console.log('\tdiff [path]\t\tShow incremental snapshot for changed files')
+	console.log('\tlast-diff [path]\t\tRepeat the last saved diff output')
+	console.log('\tmap [path]\t\t\tShow repository file map without full contents')
+	console.log('\tinit-ignore [path]\tCreate default .repo2llm-ignore')
+	console.log('\thelp\t\t\tShow this help')
+	console.log('')
+	console.log('Notes:')
+	console.log('\t[path] is optional. Current directory is used by default.')
+	console.log('\tdiff and last-diff require .repo2llm-ignore and an existing state file.')
+}
+
+
 async function main() {
 	const command = process.argv[2]
 	const root = process.argv[3] ? path.resolve(process.argv[3]) : process.cwd()
 
-	if (!command) {
-		console.error('Usage: repo2llm <command> [path]')
-		process.exit(2)
+	if (!command || command === 'help' || command === '--help' || command === '-h') {
+		printHelp()
+		process.exit(0)
 	}
 
 	if ( command !== 'snapshot' && command !== 'map' && command !== 'init-ignore' && command !== 'diff' && command !== 'last-diff')
 	{
 		console.error(`Unknown command: ${command}`)
+		printHelp()
 		process.exit(2)
 	}
 
