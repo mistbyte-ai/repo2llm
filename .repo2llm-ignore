@@ -12,3 +12,5 @@ coverage/
 *.zip
 *.tar
 *.gz
+repo2llm.txt
+repo2llm.dtxt

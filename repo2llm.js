@@ -5,7 +5,7 @@ const path = require('path')
 const {collectProjectFiles} = require('./lib/collector')
 const { renderSnapshot, renderMap, renderDiff, renderLastDiff } = require('./lib/renderer')
 const {createDefaultIgnore} = require('./lib/ignore')
-const { loadState, saveState, buildFilesState, buildSnapshotState, compareStateFiles, buildDiffState } = require('./lib/state')
+const { loadState, saveState, buildFilesState, buildDiffEntries, buildSnapshotState, compareStateFiles, buildDiffState } = require('./lib/state')
 
 async function main() {
 	const command = process.argv[2]
@@ -65,11 +65,12 @@ async function main() {
 
 			const currentFilesState = buildFilesState(result.files)
 			const changes = compareStateFiles(state.files, currentFilesState)
+			const diffEntries = buildDiffEntries(state.files, result.files, changes)
 
-			renderDiff(root, changes, result.hasUserIgnore)
+			renderDiff(root, diffEntries, result.hasUserIgnore)
 
-			if (changes.length) {
-				await saveState(root, buildDiffState(state, currentFilesState, changes))
+			if (diffEntries.length) {
+				await saveState(root, buildDiffState(state, currentFilesState, diffEntries))
 			}
 
 			return
