@@ -14,3 +14,5 @@ coverage/
 *.gz
 repo2llm.txt
 repo2llm.dtxt
+diff.txt
+snapshot.txt
