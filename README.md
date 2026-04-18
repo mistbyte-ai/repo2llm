@@ -249,6 +249,14 @@ Additional tooling for working with large-context ChatGPT/WebUI workflows is und
 
 ---
 
+## Updates
+
+Follow for short updates and new experiments around LLM tooling:
+
+👉 https://t.me/mistbyteai
+
+---
+
 ## Donations
 
 If this tool saves you time or prevents bugs, consider supporting development:
