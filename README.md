@@ -85,6 +85,21 @@ your code = model context
 
 ---
 
+## Related concept
+
+repo2llm is part of a broader workflow for **LLM-assisted development**.
+
+In this workflow, the LLM is not used as a simple "code generator" or snippet rewriter,
+but as a **development partner** that operates on the same project state as you.
+
+This requires explicit, synchronized context — not partial prompts or implicit context selection.
+
+A more detailed explanation of this approach:
+
+👉 https://t.me/mistbyteai/16
+
+---
+
 ## Workflow
 
 Typical usage:
@@ -237,6 +252,7 @@ $(npm prefix -g)/bin
 
 - Snapshot size is predictable (~chars / 3 tokens)
 - Binary files are skipped but preserved as stubs
+- SVG and similar text-based assets are skipped as content but preserved as file entries (structure only)
 - No data leaves your machine
 
 ---
