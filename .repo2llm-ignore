@@ -16,3 +16,6 @@ repo2llm.txt
 repo2llm.dtxt
 diff.txt
 snapshot.txt
+.snap
+.tmp
+.chatgpt
