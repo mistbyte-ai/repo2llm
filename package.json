@@ -9,5 +9,13 @@
 	"dependencies": {
 		"ignore": "^5.3.2",
 		"isbinaryfile": "^5.0.1"
+	},
+	"devDependencies": {
+		"esbuild": "0.27.3",
+		"postject": "1.0.0-alpha.6"
+	},
+	"scripts": {
+		"build:win": "node scripts/build-win.mjs",
+		"test:win-exe": "node scripts/smoke-win.mjs"
 	}
 }

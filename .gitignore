@@ -4,3 +4,5 @@
 /repo2llm.dtxt
 /.snap
 /.tmp
+/build/
+/dist/
