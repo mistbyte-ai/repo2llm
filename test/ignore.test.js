@@ -188,7 +188,7 @@ test('snapshot, diff, last-diff, map, status and state schema remain compatible'
 	assert.equal(saved.version, 1);
 	assert.deepEqual(Object.keys(saved.lastDiff.entries).sort(), ['changed.py', 'deleted.py', 'new.py']);
 	assert.deepEqual(Object.keys(saved.lastDiff.entries['changed.py']).sort(),
-		['changeType', 'content', 'contentState', 'lines', 'modified', 'mtimeMs', 'reason', 'size', 'type']);
+		['changeType', 'content', 'contentState', 'gitStatus', 'lines', 'modified', 'mtimeMs', 'reason', 'sha256', 'size', 'type']);
 	assert.match(cli('status', root), /workingTree: clean[\s\S]*stateMatches: diff/);
 	assert.equal(cli('diff', root), 'No changes detected.\n');
 	const replay = cli('last-diff', root);

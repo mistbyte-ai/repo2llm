@@ -135,6 +135,28 @@ repo2llm init-ignore
 
 ---
 
+## Snapshot and diff metadata
+
+Snapshots and diffs include a SHA-256 manifest and per-file `sha256` values computed
+from raw bytes before text normalization, including binary files and SVG assets whose
+contents remain skipped. Symlinks and unreadable files report `unavailable` hashes.
+Deleted files have no hash. Hashes are informational: diff detection still compares
+only modification time, size, and type, so a timestamp-only change still appears.
+
+Git integration is optional. Headers report HEAD, ordinary Git working-tree status,
+and counts for the entire current repo2llm file set (including unchanged files in a diff).
+Per-file `gitStatus` identifies `tracked` files in the Git index, `untracked` files
+outside the index, or `ignored` files excluded by Git rules. Git-ignored files can
+still be included by repo2llm. A clean Git working tree therefore does not imply
+that every snapshot file exists in HEAD. Missing Git, command failures, and non-Git
+directories report unavailable metadata; repositories without commits show `gitHead: -`.
+
+`last-diff` replays the hashes and Git metadata saved with the original diff, even
+after HEAD or files change. Older saved diffs remain readable without invented
+historical metadata. `map` and `status` output are unchanged.
+
+---
+
 ## Status command
 
 ```bash

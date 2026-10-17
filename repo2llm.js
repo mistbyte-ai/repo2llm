@@ -2,9 +2,10 @@
 /* repo2llm by MistByteAi */
 
 const path = require('path')
+const {collectGitMetadata} = require('./lib/git');
 const {collectProjectFiles} = require('./lib/collector')
 const { renderSnapshot, renderMap, renderDiff, renderLastDiff } = require('./lib/renderer')
-const {createDefaultIgnore} = require('./lib/ignore')
+const {createDefaultIgnore, loadIgnore} = require('./lib/ignore')
 const { loadState, saveState, buildFilesState, buildDiffEntries, buildSnapshotState, compareStateFiles, buildDiffState } = require('./lib/state')
 
 function formatStatusTime(value) {
@@ -136,9 +137,9 @@ async function main() {
 		}
 
 		if (command === 'last-diff') {
-			const result = await collectProjectFiles(root)
+			const {hasUserIgnore} = await loadIgnore(root);
 
-			if (!result.hasUserIgnore) {
+			if (!hasUserIgnore) {
 				console.error('Diff is unavailable without .repo2llm-ignore')
 				process.exit(1)
 			}
@@ -150,7 +151,7 @@ async function main() {
 				process.exit(1)
 			}
 
-			renderLastDiff(root, state.lastDiff, result.hasUserIgnore)
+			renderLastDiff(root, state.lastDiff, hasUserIgnore)
 			return
 		}
 
@@ -171,12 +172,14 @@ async function main() {
 
 			const currentFilesState = buildFilesState(result.files)
 			const changes = compareStateFiles(state.files, currentFilesState)
+			const git = changes.length ? await collectGitMetadata(root, result.files) : undefined;
+			const generatedAt = new Date().toISOString();
 			const diffEntries = buildDiffEntries(state.files, result.files, changes)
 
-			renderDiff(root, diffEntries, result.hasUserIgnore)
+			renderDiff(root, diffEntries, result.hasUserIgnore, generatedAt, git)
 
 			if (diffEntries.length) {
-				await saveState(root, buildDiffState(state, currentFilesState, diffEntries))
+				await saveState(root, buildDiffState(state, currentFilesState, diffEntries, git, generatedAt))
 			}
 
 			return
@@ -193,6 +196,7 @@ async function main() {
 			console.error('Warning: .repo2llm-ignore not found. Built-in ignore rules are used. State file will not be created.')
 		}
 
+		result.git = await collectGitMetadata(root, result.files);
 		renderSnapshot(root, result)
 
 		if (result.hasUserIgnore) {
