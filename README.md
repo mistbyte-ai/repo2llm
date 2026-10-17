@@ -158,11 +158,38 @@ stateMatches: diff
 
 ## Ignore rules
 
-Uses `.repo2llm-ignore` (gitignore-compatible).
+Built-in ignore rules are used only when `.repo2llm-ignore` is absent.
+They exclude common dependency directories, build artifacts, `.env` and `.env.*`,
+and Python caches, compiled files, coverage output, package metadata, and virtual environments.
+Without a user ignore file, `snapshot` and `map` work, but snapshots do not create
+persistent state and `diff` / `last-diff` are unavailable.
+
+An existing `.repo2llm-ignore` **fully replaces** the built-in defaults.
+Rules use gitignore-compatible syntax, including dotfiles, negation (`!`), nested
+paths, and directory rules. A leading dot does not automatically exclude a file.
+For example:
+
+```gitignore
+.env
+.env.local
+```
+
+This excludes `.env` and `.env.local`, while including `.env.example` and
+`.env.production.local` unless another user rule excludes them.
+
+Generate a starting file containing the built-in defaults (including Python rules):
 
 ```bash
 repo2llm init-ignore
 ```
+
+An existing ignore file is never overwritten.
+An empty `.repo2llm-ignore` disables ordinary default exclusions, so take care
+not to include secrets or large dependency directories accidentally.
+
+`.repo2llm-state.json` is always excluded internally, even if a user rule tries
+to re-include it with `!`. `.repo2llm-ignore` itself is an ordinary project file:
+it is included in snapshots and maps unless explicitly excluded.
 
 ---
 
