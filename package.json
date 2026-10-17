@@ -1,6 +1,6 @@
 {
 	"name": "repo2llm",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"description": "LLM-friendly repository snapshot tool",
 	"bin": {
 		"repo2llm": "./repo2llm.js"

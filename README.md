@@ -262,6 +262,64 @@ repo2llm:
 
 ## Installation
 
+### Windows standalone
+
+After **v1.2.0 is published**, `repo2llm-win-x64.exe` will be available on this
+repository's **GitHub Releases** page. Download the executable to a tools folder;
+no Node.js, npm, or JavaScript dependency installation is required.
+Git is optional: without Git, repository metadata is unavailable (`gitAvailable: no`).
+
+Open a shell in the folder containing the executable. The examples below target
+`C:\work\My project` and save output outside that project to avoid including the
+output files in later snapshots. Review the generated ignore file before taking
+a snapshot. A nonempty diff must be generated before `last-diff` can replay it.
+
+PowerShell 7:
+
+```powershell
+.\repo2llm-win-x64.exe help
+.\repo2llm-win-x64.exe init-ignore "C:\work\My project"
+.\repo2llm-win-x64.exe snapshot "C:\work\My project" > "C:\work\snapshot.txt"
+# Edit project files before generating a diff.
+.\repo2llm-win-x64.exe diff "C:\work\My project" > "C:\work\diff.txt"
+.\repo2llm-win-x64.exe last-diff "C:\work\My project" > "C:\work\last-diff.txt"
+```
+
+CMD:
+
+```bat
+chcp 65001 > nul
+repo2llm-win-x64.exe help
+repo2llm-win-x64.exe init-ignore "C:\work\My project"
+repo2llm-win-x64.exe snapshot "C:\work\My project" > "C:\work\snapshot.txt"
+REM Edit project files before generating a diff.
+repo2llm-win-x64.exe diff "C:\work\My project" > "C:\work\diff.txt"
+repo2llm-win-x64.exe last-diff "C:\work\My project" > "C:\work\last-diff.txt"
+```
+
+**Output encoding:** PowerShell 7 defaults to UTF-8; starting with 7.4, native
+stdout redirection preserves the original bytes. Windows PowerShell 5.1 uses
+UTF-16 LE for `>`. CMD's console encoding depends on its active code page
+(`chcp 65001` selects UTF-8), but CMD forwards redirected native stdout without
+transcoding; repo2llm writes UTF-8 bytes.
+See Microsoft's [character encoding](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_character_encoding)
+and [native redirection](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_redirection#redirecting-output-from-native-commands) documentation.
+
+For reliable UTF-8 output from **Windows PowerShell 5.1**, let CMD perform the
+redirection so PowerShell does not decode and re-encode the output:
+
+```powershell
+cmd.exe /d /c '.\repo2llm-win-x64.exe snapshot "C:\work\My project" > "C:\work\snapshot.txt"'
+```
+
+Use the same form for `diff` and `last-diff`, keeping `>` inside the quoted CMD
+command. This preserves the executable's UTF-8 output without changing the app.
+
+The experimental EXE has been cross-built on Linux and tested under Wine.
+**Native Windows CI verification is still pending.**
+
+### Node.js / npm
+
 Install dependencies:
 
 ```bash
@@ -294,6 +352,18 @@ The executable is usually located in:
 ```bash
 $(npm prefix -g)/bin
 ```
+
+### Manual Windows build (GitHub Actions)
+
+Maintainers can open **Actions → Build Windows executable → Run workflow** to
+build a Windows x64 EXE. The workflow installs the pinned Node.js/build tools,
+runs regression and standalone EXE smoke tests, and uploads the tested executable
+as the `repo2llm-win-x64` **workflow artifact**. It runs only when manually triggered.
+
+Download the artifact from the successful workflow run. Workflow artifacts are
+build outputs with limited retention; they are separate from **GitHub Releases**.
+The workflow does not create a tag or publish a release. Attaching the tested EXE
+to the v1.2.0 release is a separate publication step.
 
 ---
 
