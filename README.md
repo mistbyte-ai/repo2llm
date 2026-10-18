@@ -364,7 +364,6 @@ build a Windows x64 EXE. The workflow installs the pinned Node.js/build tools,
 runs regression and standalone EXE smoke tests, and uploads the tested executable
 as the `repo2llm-win-x64` **workflow artifact**. It runs only when manually triggered.
 
-Download the artifact from the successful workflow run. Workflow artifacts are
 Workflow artifacts are temporary build outputs with limited retention and are
 separate from GitHub Releases. The manually triggered workflow does not create
 tags or publish releases.
