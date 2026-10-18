@@ -50,6 +50,8 @@ async function main() {
 		'TEMP/TMP must point outside the repository');
 	const temp = await fs.mkdtemp(path.join(tempBase, 'repo2llm-win-smoke-'));
 	try {
+		const gitConfig = path.join(temp, 'empty-git-config');
+		await fs.writeFile(gitConfig, '');
 		const bin = path.join(temp, 'standalone Ю');
 		const cwd = path.join(temp, 'unrelated working directory');
 		await fs.mkdir(bin);
@@ -65,7 +67,7 @@ async function main() {
 			}
 		}
 		env.GIT_CONFIG_NOSYSTEM = '1';
-		env.GIT_CONFIG_GLOBAL = os.devNull;
+		env.GIT_CONFIG_GLOBAL = gitConfig;
 
 		const isolatedEnv = {...env};
 		for (const key of Object.keys(isolatedEnv)) {
