@@ -264,10 +264,12 @@ repo2llm:
 
 ### Windows standalone
 
-After **v1.2.0 is published**, `repo2llm-win-x64.exe` will be available on this
-repository's **GitHub Releases** page. Download the executable to a tools folder;
-no Node.js, npm, or JavaScript dependency installation is required.
-Git is optional: without Git, repository metadata is unavailable (`gitAvailable: no`).
+The Windows x64 standalone executable `repo2llm-win-x64.exe` has passed native
+Windows smoke tests and is available from the [GitHub Releases](https://github.com/mistbyte-ai/repo2llm/releases) page.
+
+The executable is self-contained: no separate Node.js, npm, or JavaScript
+dependencies are required. Git is optional; without Git, repository metadata is
+unavailable (`gitAvailable: no`).
 
 The application bundle itself is approximately **55 KB**, while the final EXE is
 approximately **90 MB** because it embeds the complete Node.js runtime. This is
@@ -320,9 +322,6 @@ cmd.exe /d /c '.\repo2llm-win-x64.exe snapshot "C:\work\My project" > "C:\work\s
 Use the same form for `diff` and `last-diff`, keeping `>` inside the quoted CMD
 command. This preserves the executable's UTF-8 output without changing the app.
 
-The experimental EXE has been cross-built on Linux and tested under Wine.
-**Native Windows CI verification is still pending.**
-
 ### Node.js / npm
 
 Install dependencies:
@@ -366,9 +365,11 @@ runs regression and standalone EXE smoke tests, and uploads the tested executabl
 as the `repo2llm-win-x64` **workflow artifact**. It runs only when manually triggered.
 
 Download the artifact from the successful workflow run. Workflow artifacts are
-build outputs with limited retention; they are separate from **GitHub Releases**.
-The workflow does not create a tag or publish a release. Attaching the tested EXE
-to the v1.2.0 release is a separate publication step.
+Workflow artifacts are temporary build outputs with limited retention and are
+separate from GitHub Releases. The manually triggered workflow does not create
+tags or publish releases.
+
+The v1.2.0 release includes the Windows executable that passed native smoke tests.
 
 ---
 
@@ -387,6 +388,19 @@ repo2llm is part of a broader approach to **dialog-driven development with LLMs*
 
 Additional tooling for working with large-context ChatGPT/WebUI workflows is under development.
 
+## Roadmap
+
+Future directions include size-aware handling for very large files without
+parsing or interpreting their contents, and more detailed Git metadata for
+working-tree changes. Longer term, repo2llm may add machine-readable indexes for
+snapshots and diffs, including precise file ranges for external tools and agents.
+
+The current text format remains optimized for direct LLM consumption; any
+machine-readable index would be a secondary output. The project will not add
+language-specific import or dependency parsing, built-in context chunking, or
+intelligent content selection. The guiding principle is explicit, reliable,
+verifiable context. These are directions, not commitments to a release or date.
+
 ---
 
 ## Updates
@@ -397,13 +411,14 @@ Follow for short updates and new experiments around LLM tooling:
 
 ---
 
-## Donations
+## Support development
 
-If this tool saves you time or prevents bugs, consider supporting development:
+repo2llm is an independent, freely available project. Financial support helps
+the author dedicate more time to development, testing, and future features.
 
-👉 https://web.tribute.tg/d/Ih8
+**Want to help new features arrive sooner? Support development:**
 
-Development is independent and time-limited — support directly impacts how fast new features appear.
+https://web.tribute.tg/d/Ih8
 
 ---
 
