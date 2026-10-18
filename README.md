@@ -269,6 +269,11 @@ repository's **GitHub Releases** page. Download the executable to a tools folder
 no Node.js, npm, or JavaScript dependency installation is required.
 Git is optional: without Git, repository metadata is unavailable (`gitAvailable: no`).
 
+The application bundle itself is approximately **55 KB**, while the final EXE is
+approximately **90 MB** because it embeds the complete Node.js runtime. This is
+why no separate Node.js or npm installation is required. The standard Node.js
+distribution remains available as an alternative; see [Node.js / npm](#nodejs--npm) below.
+
 Open a shell in the folder containing the executable. The examples below target
 `C:\work\My project` and save output outside that project to avoid including the
 output files in later snapshots. Review the generated ignore file before taking
